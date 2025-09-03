@@ -21,7 +21,7 @@ func SetupRestServer(db *gorm.DB, cfg *config.Config) (*fiber.App, error) {
 	app := fiber.New()
 	middleware.FiberMiddleware(app)
 	// comment out Swagger when testing
-	// routes.SwaggerRoute(app)
+	routes.SwaggerRoute(app)
 	routes.RegisterPublicRoutes(app, db)
 	routes.RegisterPrivateRoutes(app, db)
 	routes.RegisterNotFoundRoute(app)
@@ -51,7 +51,8 @@ func SetupDependencies(env string) (*gorm.DB, *config.Config, error) {
 	if env == "test" {
 		db.Migrator().DropTable(&entities.Order{})
 	}
-	if err := db.AutoMigrate(&entities.Order{}); err != nil {
+	// if err := db.AutoMigrate(&entities.Order{}); err != nil {
+	if err := db.AutoMigrate(&entities.Event{}); err != nil {
 		return nil, nil, err
 	}
 

@@ -1,5 +1,72 @@
 basePath: /api/v1
 definitions:
+  dto.CreateEventRequest:
+    properties:
+      end_at:
+        type: string
+      event_description:
+        type: string
+      event_name:
+        type: string
+      main_image_url:
+        type: string
+      register_close_dt:
+        type: string
+      register_start_dt:
+        type: string
+      start_at:
+        type: string
+    required:
+    - end_at
+    - event_description
+    - event_name
+    - main_image_url
+    - register_close_dt
+    - register_start_dt
+    - start_at
+    type: object
+  dto.EventResponse:
+    properties:
+      end_at:
+        type: string
+      event_description:
+        type: string
+      event_name:
+        type: string
+      id:
+        type: integer
+      main_image_url:
+        type: string
+      register_close_dt:
+        type: string
+      register_start_dt:
+        type: string
+      start_at:
+        type: string
+    type: object
+  entities.Event:
+    properties:
+      created_at:
+        type: string
+      end_at:
+        type: string
+      event_description:
+        type: string
+      event_name:
+        type: string
+      id:
+        type: integer
+      main_image_url:
+        type: string
+      register_close_dt:
+        type: string
+      register_start_dt:
+        type: string
+      start_at:
+        type: string
+      updated_at:
+        type: string
+    type: object
   entities.Order:
     properties:
       id:
@@ -7,75 +74,113 @@ definitions:
       total:
         type: number
     type: object
-  entities.User:
-    properties:
-      email:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      password:
-        type: string
-    type: object
-  response.MessageResponse:
+  responses.MessageResponse:
     properties:
       message:
         example: example message
         type: string
     type: object
-host: localhost:8000
+host: localhost:8003
 info:
   contact: {}
-  description: This is the backend API for CleanGO project.
-  title: CleanGO API
+  description: API documentation for the Event Service
+  title: TeamUpSpace Event Service API
   version: "1.0"
 paths:
-  /auth/signin:
-    post:
-      consumes:
-      - application/json
-      parameters:
-      - description: Login credentials (email & password)
-        in: body
-        name: credentials
-        required: true
-        schema:
-          additionalProperties:
-            type: string
-          type: object
+  /events:
+    get:
       produces:
       - application/json
       responses:
         "200":
-          description: Authenticated user and JWT token
+          description: OK
           schema:
-            additionalProperties: true
-            type: object
-      summary: Authenticate user and return token
+            items:
+              $ref: '#/definitions/entities.Event'
+            type: array
+      summary: Get all events
       tags:
-      - users
-  /auth/signup:
+      - events
     post:
       consumes:
       - application/json
       parameters:
-      - description: User registration payload
+      - description: Event payload
         in: body
-        name: user
+        name: event
         required: true
         schema:
-          $ref: '#/definitions/entities.User'
+          $ref: '#/definitions/dto.CreateEventRequest'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/entities.User'
-      summary: Register a new user
+            $ref: '#/definitions/dto.EventResponse'
+      summary: Create a new event
       tags:
-      - users
+      - events
+  /events/{id}:
+    delete:
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.MessageResponse'
+      summary: Delete an event by ID
+      tags:
+      - events
+    get:
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Event'
+      summary: Get event by ID
+      tags:
+      - events
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Event ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Event update payload
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Event'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Event'
+      summary: Update an event partially
+      tags:
+      - events
   /orders:
     get:
       produces:
@@ -124,7 +229,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.MessageResponse'
+            $ref: '#/definitions/responses.MessageResponse'
       summary: Delete an order by ID
       tags:
       - orders
@@ -170,48 +275,4 @@ paths:
       summary: Update an order partially
       tags:
       - orders
-  /users:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/entities.User'
-            type: array
-      summary: Get all users
-      tags:
-      - users
-  /users/{id}:
-    get:
-      parameters:
-      - description: User ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.User'
-      summary: Get user by ID
-      tags:
-      - users
-  /users/me:
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/entities.User'
-      summary: Get currently authenticated user
-      tags:
-      - users
 swagger: "2.0"

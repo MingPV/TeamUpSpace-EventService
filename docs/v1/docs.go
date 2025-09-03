@@ -15,44 +15,27 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/auth/signin": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
+        "/events": {
+            "get": {
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "events"
                 ],
-                "summary": "Authenticate user and return token",
-                "parameters": [
-                    {
-                        "description": "Login credentials (email \u0026 password)",
-                        "name": "credentials",
-                        "in": "body",
-                        "required": true,
+                "summary": "Get all events",
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.Event"
                             }
                         }
                     }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Authenticated user and JWT token",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    }
                 }
-            }
-        },
-        "/auth/signup": {
+            },
             "post": {
                 "consumes": [
                     "application/json"
@@ -61,17 +44,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "events"
                 ],
-                "summary": "Register a new user",
+                "summary": "Create a new event",
                 "parameters": [
                     {
-                        "description": "User registration payload",
-                        "name": "user",
+                        "description": "Event payload",
+                        "name": "event",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entities.User"
+                            "$ref": "#/definitions/dto.CreateEventRequest"
                         }
                     }
                 ],
@@ -79,7 +62,99 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/entities.User"
+                            "$ref": "#/definitions/dto.EventResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/events/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Get event by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Event"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Delete an event by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.MessageResponse"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "events"
+                ],
+                "summary": "Update an event partially",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Event update payload",
+                        "name": "event",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Event"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.Event"
                         }
                     }
                 }
@@ -186,7 +261,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.MessageResponse"
+                            "$ref": "#/definitions/responses.MessageResponse"
                         }
                     }
                 }
@@ -229,78 +304,108 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/users": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get all users",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/entities.User"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/users/me": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get currently authenticated user",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.User"
-                        }
-                    }
-                }
-            }
-        },
-        "/users/{id}": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "users"
-                ],
-                "summary": "Get user by ID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "User ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/entities.User"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
+        "dto.CreateEventRequest": {
+            "type": "object",
+            "required": [
+                "end_at",
+                "event_description",
+                "event_name",
+                "main_image_url",
+                "register_close_dt",
+                "register_start_dt",
+                "start_at"
+            ],
+            "properties": {
+                "end_at": {
+                    "type": "string"
+                },
+                "event_description": {
+                    "type": "string"
+                },
+                "event_name": {
+                    "type": "string"
+                },
+                "main_image_url": {
+                    "type": "string"
+                },
+                "register_close_dt": {
+                    "type": "string"
+                },
+                "register_start_dt": {
+                    "type": "string"
+                },
+                "start_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.EventResponse": {
+            "type": "object",
+            "properties": {
+                "end_at": {
+                    "type": "string"
+                },
+                "event_description": {
+                    "type": "string"
+                },
+                "event_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "main_image_url": {
+                    "type": "string"
+                },
+                "register_close_dt": {
+                    "type": "string"
+                },
+                "register_start_dt": {
+                    "type": "string"
+                },
+                "start_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Event": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "end_at": {
+                    "type": "string"
+                },
+                "event_description": {
+                    "type": "string"
+                },
+                "event_name": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "main_image_url": {
+                    "type": "string"
+                },
+                "register_close_dt": {
+                    "type": "string"
+                },
+                "register_start_dt": {
+                    "type": "string"
+                },
+                "start_at": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "entities.Order": {
             "type": "object",
             "properties": {
@@ -312,24 +417,7 @@ const docTemplate = `{
                 }
             }
         },
-        "entities.User": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "response.MessageResponse": {
+        "responses.MessageResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -344,11 +432,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8000",
+	Host:             "localhost:8003",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "CleanGO API",
-	Description:      "This is the backend API for CleanGO project.",
+	Title:            "TeamUpSpace Event Service API",
+	Description:      "API documentation for the Event Service",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
