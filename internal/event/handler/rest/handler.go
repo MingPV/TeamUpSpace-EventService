@@ -39,7 +39,7 @@ func (h *HttpEventHandler) CreateEvent(c *fiber.Ctx) error {
 		EventDescription: req.EventDescription,
 		StartAt:          req.StartAt,
 		EndAt:            req.EndAt,
-		MainImageURL:     req.MainImageURL,
+		MainImageUrl:     req.MainImageUrl,
 		RegisterStartDt:  req.RegisterStartDt,
 		RegisterCloseDt:  req.RegisterCloseDt,
 	}
@@ -93,7 +93,7 @@ func (h *HttpEventHandler) FindEventByID(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Event ID"
-// @Param event body entities.Event true "Event update payload"
+// @Param event body dto.CreateEventRequest true "Event update payload"
 // @Success 200 {object} entities.Event
 // @Router /events/{id} [patch]
 func (h *HttpEventHandler) PatchEvent(c *fiber.Ctx) error {
@@ -113,15 +113,15 @@ func (h *HttpEventHandler) PatchEvent(c *fiber.Ctx) error {
 		EventDescription: req.EventDescription,
 		StartAt:          req.StartAt,
 		EndAt:            req.EndAt,
-		MainImageURL:     req.MainImageURL,
+		MainImageUrl:     req.MainImageUrl,
 		RegisterStartDt:  req.RegisterStartDt,
 		RegisterCloseDt:  req.RegisterCloseDt,
 	}
 
-	msg, err := validatePatchEvent(event)
-	if err != nil {
-		return responses.ErrorWithMessage(c, err, msg)
-	}
+	// msg, err := validatePatchEvent(event)
+	// if err != nil {
+	// 	return responses.ErrorWithMessage(c, err, msg)
+	// }
 
 	updatedEvent, err := h.eventUseCase.PatchEvent(eventID, event)
 	if err != nil {
@@ -152,23 +152,23 @@ func (h *HttpEventHandler) DeleteEvent(c *fiber.Ctx) error {
 	return responses.Message(c, fiber.StatusOK, "event deleted")
 }
 
-func validatePatchEvent(event *entities.Event) (string, error) {
+// func validatePatchEvent(event *entities.Event) (string, error) {
 
-	// if event.EventName == "" {
-	// 	return "event name is required", apperror.ErrInvalidData
-	// }
-	// if event.StartAt == "" {
-	// 	return "start at is required", apperror.ErrInvalidData
-	// }
-	// if event.EndAt == "" {
-	// 	return "end at is required", apperror.ErrInvalidData
-	// }
-	// if event.RegisterStartDt == "" {
-	// 	return "register start date is required", apperror.ErrInvalidData
-	// }
-	// if event.RegisterCloseDt == "" {
-	// 	return "register close date is required", apperror.ErrInvalidData
-	// }
+// 	// if event.EventName == "" {
+// 	// 	return "event name is required", apperror.ErrInvalidData
+// 	// }
+// 	// if event.StartAt == "" {
+// 	// 	return "start at is required", apperror.ErrInvalidData
+// 	// }
+// 	// if event.EndAt == "" {
+// 	// 	return "end at is required", apperror.ErrInvalidData
+// 	// }
+// 	// if event.RegisterStartDt == "" {
+// 	// 	return "register start date is required", apperror.ErrInvalidData
+// 	// }
+// 	// if event.RegisterCloseDt == "" {
+// 	// 	return "register close date is required", apperror.ErrInvalidData
+// 	// }
 
-	return "", nil
-}
+// 	return "", nil
+// }

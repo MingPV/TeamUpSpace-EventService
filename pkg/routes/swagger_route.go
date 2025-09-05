@@ -7,6 +7,8 @@ import (
 )
 
 // SwaggerRoute func for describe group of API Docs routes.
+// swag init -g cmd/app/main.go -o docs/v1   
+// go run ./cmd/app  
 func SwaggerRoute(a *fiber.App) {
 
 	a.Use(swagger.New(swagger.Config{

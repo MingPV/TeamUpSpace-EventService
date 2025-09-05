@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package event;
+
+option go_package = "github.com/MingPV/EventService/proto/eventpb";
+
+message Order {
+  int32 id = 1;
+  double total = 2;
+}
+
+message Event {
+	uint32 id = 1;
+	string event_name = 2;
+	string event_description = 3;
+	string start_at = 4;
+	string end_at = 5;
+	string main_image_url = 6;
+	string register_start_dt = 7;
+	string register_close_dt = 8;
+	string created_at = 9;
+	string updated_at = 10;
+}
+
+message CreateEventRequest {
+	string event_name = 1;
+	string event_description = 2;
+	string start_at = 3;
+	string end_at = 4;
+	string main_image_url = 5;
+	string register_start_dt = 6;
+	string register_close_dt = 7;
+}
+
+message CreateEventResponse {
+  Event event = 1;
+}
+
+message FindEventByIDRequest {
+  uint32 id = 1;
+}
+
+message FindEventByIDResponse {
+  Event event = 1;
+}
+
+message FindAllEventsRequest {}
+
+message FindAllEventsResponse {
+  repeated Event events = 1;
+}
+
+message PatchEventRequest {
+	uint32 id = 1;
+  string event_name = 2;
+	string event_description = 3;
+	string start_at = 4;
+	string end_at = 5;
+	string main_image_url = 6;
+	string register_start_dt = 7;
+	string register_close_dt = 8;
+}
+
+message PatchEventResponse {
+  Event event = 1;
+}
+
+message DeleteEventRequest {
+  uint32 id = 1;
+}
+
+message DeleteEventResponse {
+  string message = 1;
+}
+
+service EventService {
+  rpc CreateEvent(CreateEventRequest) returns (CreateEventResponse);
+  rpc FindEventByID(FindEventByIDRequest) returns (FindEventByIDResponse);
+  rpc FindAllEvents(FindAllEventsRequest) returns (FindAllEventsResponse);
+  rpc PatchEvent(PatchEventRequest) returns (PatchEventResponse);
+  rpc DeleteEvent(DeleteEventRequest) returns (DeleteEventResponse);
+}

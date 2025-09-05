@@ -146,7 +146,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/entities.Event"
+                            "$ref": "#/definitions/dto.CreateEventRequest"
                         }
                     }
                 ],
@@ -345,6 +345,9 @@ const docTemplate = `{
         "dto.EventResponse": {
             "type": "object",
             "properties": {
+                "created_at": {
+                    "type": "string"
+                },
                 "end_at": {
                     "type": "string"
                 },
@@ -367,6 +370,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "start_at": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 }
             }

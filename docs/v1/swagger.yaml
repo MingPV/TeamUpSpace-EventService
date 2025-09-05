@@ -27,6 +27,8 @@ definitions:
     type: object
   dto.EventResponse:
     properties:
+      created_at:
+        type: string
       end_at:
         type: string
       event_description:
@@ -42,6 +44,8 @@ definitions:
       register_start_dt:
         type: string
       start_at:
+        type: string
+      updated_at:
         type: string
     type: object
   entities.Event:
@@ -170,7 +174,7 @@ paths:
         name: event
         required: true
         schema:
-          $ref: '#/definitions/entities.Event'
+          $ref: '#/definitions/dto.CreateEventRequest'
       produces:
       - application/json
       responses:

@@ -9,11 +9,15 @@ import (
 	GrpcOrderHandler "github.com/MingPV/EventService/internal/order/handler/grpc"
 	orderRepository "github.com/MingPV/EventService/internal/order/repository"
 	orderUseCase "github.com/MingPV/EventService/internal/order/usecase"
+	GrpcEventHandler "github.com/MingPV/EventService/internal/event/handler/grpc"
+	eventRepository "github.com/MingPV/EventService/internal/event/repository"
+	eventUseCase "github.com/MingPV/EventService/internal/event/usecase"
 	"github.com/MingPV/EventService/pkg/config"
 	"github.com/MingPV/EventService/pkg/database"
 	"github.com/MingPV/EventService/pkg/middleware"
 	"github.com/MingPV/EventService/pkg/routes"
 	orderpb "github.com/MingPV/EventService/proto/order"
+	eventpb "github.com/MingPV/EventService/proto/event"
 )
 
 // rest
@@ -31,11 +35,19 @@ func SetupRestServer(db *gorm.DB, cfg *config.Config) (*fiber.App, error) {
 // grpc
 func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	s := grpc.NewServer()
+
+	// Order Service
 	orderRepo := orderRepository.NewGormOrderRepository(db)
 	orderService := orderUseCase.NewOrderService(orderRepo)
-
 	orderHandler := GrpcOrderHandler.NewGrpcOrderHandler(orderService)
 	orderpb.RegisterOrderServiceServer(s, orderHandler)
+
+	// Event Service
+	eventRepo := eventRepository.NewGormEventRepository(db)
+	eventService := eventUseCase.NewEventService(eventRepo)
+	eventHandler := GrpcEventHandler.NewGrpcEventHandler(eventService)
+	eventpb.RegisterEventServiceServer(s, eventHandler)
+	
 	return s, nil
 }
 

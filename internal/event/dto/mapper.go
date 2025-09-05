@@ -9,9 +9,11 @@ func ToEventResponse(event *entities.Event) *EventResponse {
 		EventDescription: event.EventDescription,
 		StartAt:          event.StartAt,
 		EndAt:            event.EndAt,
-		MainImageURL:     event.MainImageURL,
+		MainImageUrl:     event.MainImageUrl,
 		RegisterStartDt:  event.RegisterStartDt,
 		RegisterCloseDt:  event.RegisterCloseDt,
+		CreatedAt:        event.CreatedAt,
+		UpdatedAt:        event.UpdatedAt,
 	}
 }
 
