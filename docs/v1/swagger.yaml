@@ -25,6 +25,23 @@ definitions:
     - register_start_dt
     - start_at
     type: object
+  dto.CreateEventTagRequest:
+    properties:
+      event_id:
+        type: integer
+      tag_id:
+        type: integer
+    required:
+    - event_id
+    - tag_id
+    type: object
+  dto.CreateTagRequest:
+    properties:
+      tag_name:
+        type: string
+    required:
+    - tag_name
+    type: object
   dto.EventResponse:
     properties:
       created_at:
@@ -44,6 +61,28 @@ definitions:
       register_start_dt:
         type: string
       start_at:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.EventTagResponse:
+    properties:
+      created_at:
+        type: string
+      event_id:
+        type: integer
+      tag_id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  dto.TagResponse:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      tag_name:
         type: string
       updated_at:
         type: string
@@ -68,6 +107,27 @@ definitions:
         type: string
       start_at:
         type: string
+      tags:
+        items:
+          $ref: '#/definitions/entities.Tag'
+        type: array
+      updated_at:
+        type: string
+    type: object
+  entities.EventTag:
+    properties:
+      created_at:
+        type: string
+      event:
+        allOf:
+        - $ref: '#/definitions/entities.Event'
+        description: Foreign key relationships
+      event_id:
+        type: integer
+      tag:
+        $ref: '#/definitions/entities.Tag'
+      tag_id:
+        type: integer
       updated_at:
         type: string
     type: object
@@ -77,6 +137,21 @@ definitions:
         type: integer
       total:
         type: number
+    type: object
+  entities.Tag:
+    properties:
+      created_at:
+        type: string
+      events:
+        items:
+          $ref: '#/definitions/entities.Event'
+        type: array
+      id:
+        type: integer
+      tag_name:
+        type: string
+      updated_at:
+        type: string
     type: object
   responses.MessageResponse:
     properties:
@@ -91,6 +166,85 @@ info:
   title: TeamUpSpace Event Service API
   version: "1.0"
 paths:
+  /event_tags:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.EventTag'
+            type: array
+      summary: Get all event tags
+      tags:
+      - event_tags
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Event Tag payload
+        in: body
+        name: event
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateEventTagRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.EventTagResponse'
+      summary: Create a new event tag
+      tags:
+      - event_tags
+  /event_tags/{event_id}/{tag_id}:
+    delete:
+      parameters:
+      - description: Event ID
+        in: path
+        name: event_id
+        required: true
+        type: integer
+      - description: Tag ID
+        in: path
+        name: tag_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.MessageResponse'
+      summary: Delete an event tag by ID
+      tags:
+      - event_tags
+    get:
+      parameters:
+      - description: Event ID
+        in: path
+        name: event_id
+        required: true
+        type: integer
+      - description: Tag ID
+        in: path
+        name: tag_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.EventTag'
+      summary: Get event tag by ID
+      tags:
+      - event_tags
   /events:
     get:
       produces:
@@ -279,4 +433,98 @@ paths:
       summary: Update an order partially
       tags:
       - orders
+  /tags:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Tag'
+            type: array
+      summary: Get all tags
+      tags:
+      - tags
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag payload
+        in: body
+        name: tag
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTagRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TagResponse'
+      summary: Create a new tag
+      tags:
+      - tags
+  /tags/{id}:
+    delete:
+      parameters:
+      - description: Tag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.MessageResponse'
+      summary: Delete a tag by ID
+      tags:
+      - tags
+    get:
+      parameters:
+      - description: Tag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Tag'
+      summary: Get tag by ID
+      tags:
+      - tags
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Tag update payload
+        in: body
+        name: tag
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateTagRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.Tag'
+      summary: Update a tag partially
+      tags:
+      - tags
 swagger: "2.0"

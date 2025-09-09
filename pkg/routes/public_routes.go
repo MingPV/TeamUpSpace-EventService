@@ -13,6 +13,16 @@ import (
 	eventHandler "github.com/MingPV/EventService/internal/event/handler/rest"
 	eventRepository "github.com/MingPV/EventService/internal/event/repository"
 	eventUseCase "github.com/MingPV/EventService/internal/event/usecase"
+
+	// Tag
+	tagHandler "github.com/MingPV/EventService/internal/tag/handler/rest"
+	tagRepository "github.com/MingPV/EventService/internal/tag/repository"
+	tagUseCase "github.com/MingPV/EventService/internal/tag/usecase"
+
+	// EventTag
+	eventTagHandler "github.com/MingPV/EventService/internal/event_tag/handler/rest"
+	eventTagRepository "github.com/MingPV/EventService/internal/event_tag/repository"
+	eventTagUseCase "github.com/MingPV/EventService/internal/event_tag/usecase"
 )
 
 func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
@@ -31,6 +41,16 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 	eventService := eventUseCase.NewEventService(eventRepo)
 	eventHandler := eventHandler.NewHttpEventHandler(eventService)
 
+	// Tag
+	tagRepo := tagRepository.NewGormTagRepository(db)
+	tagService := tagUseCase.NewTagService(tagRepo)
+	tagHandler := tagHandler.NewHttpTagHandler(tagService)
+
+	// EventTag
+	eventTagRepo := eventTagRepository.NewGormEventTagRepository(db)
+	eventTagService := eventTagUseCase.NewEventTagService(eventTagRepo)
+	eventTagHandler := eventTagHandler.NewHttpEventTagHandler(eventTagService)
+
 	// === Public Routes ===
 
 	// // Order routes
@@ -48,4 +68,19 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 	eventGroup.Post("/", eventHandler.CreateEvent)
 	eventGroup.Patch("/:id", eventHandler.PatchEvent)
 	eventGroup.Delete("/:id", eventHandler.DeleteEvent)
+
+	// Tag routes
+	tagGroup := api.Group("/tags")
+	tagGroup.Get("/", tagHandler.FindAllTags)
+	tagGroup.Get("/:id", tagHandler.FindTagByID)
+	tagGroup.Post("/", tagHandler.CreateTag)
+	tagGroup.Patch("/:id", tagHandler.PatchTag)
+	tagGroup.Delete("/:id", tagHandler.DeleteTag)
+
+	// EventTag routes
+	eventTagGroup := api.Group("/event_tags")
+	eventTagGroup.Get("/", eventTagHandler.FindAllEventTags)
+	eventTagGroup.Get("/:event_id/:tag_id", eventTagHandler.FindEventTagByID)
+	eventTagGroup.Post("/", eventTagHandler.CreateEventTag)
+	eventTagGroup.Delete("/:event_id/:tag_id", eventTagHandler.DeleteEventTag)
 }

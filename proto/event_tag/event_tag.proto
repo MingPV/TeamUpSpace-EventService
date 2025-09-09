@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package event_tag;
+
+option go_package = "github.com/MingPV/EventService/proto/event_tag_pb";
+
+message EventTag {
+	uint32 event_id = 1;
+  uint32 tag_id = 2;
+	string created_at = 3;
+	string updated_at = 4;
+}
+
+message CreateEventTagRequest {
+  uint32 event_id = 1;
+	uint32 tag_id = 2;
+}
+
+message CreateEventTagResponse {
+  EventTag event_tag = 1;
+}
+
+message FindEventTagByIDRequest {
+  uint32 event_id = 1;
+	uint32 tag_id = 2;
+}
+
+message FindEventTagByIDResponse {
+  EventTag event_tag = 1;
+}
+
+message FindAllEventTagsRequest {}
+
+message FindAllEventTagsResponse {
+  repeated EventTag event_tags = 1;
+}
+
+message DeleteEventTagRequest {
+  uint32 event_id = 1;
+	uint32 tag_id = 2;
+}
+
+message DeleteEventTagResponse {
+  string message = 1;
+}
+
+service EventTagService {
+  rpc CreateEventTag(CreateEventTagRequest) returns (CreateEventTagResponse);
+  rpc FindEventTagByID(FindEventTagByIDRequest) returns (FindEventTagByIDResponse);
+  rpc FindAllEventTags(FindAllEventTagsRequest) returns (FindAllEventTagsResponse);
+  rpc DeleteEventTag(DeleteEventTagRequest) returns (DeleteEventTagResponse);
+}

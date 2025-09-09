@@ -4,11 +4,6 @@ package event;
 
 option go_package = "github.com/MingPV/EventService/proto/eventpb";
 
-message Order {
-  int32 id = 1;
-  double total = 2;
-}
-
 message Event {
 	uint32 id = 1;
 	string event_name = 2;

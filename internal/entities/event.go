@@ -13,13 +13,19 @@ type Event struct {
 	RegisterCloseDt 	string    	`json:"register_close_dt"`
 	CreatedAt      		time.Time	`gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt      		time.Time	`gorm:"autoUpdateTime" json:"updated_at"`
+
+	Tags []Tag `gorm:"many2many:event_tags;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"tags,omitempty"`
 }
 
 type EventTag struct {
-	EventID     uint   		`json:"event_id"`
-	TagID       uint   		`json:"tag_id"`
+	EventID     uint   		`gorm:"primaryKey" json:"event_id"`
+	TagID       uint   		`gorm:"primaryKey" json:"tag_id"`
 	CreatedAt   time.Time	`gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time	`gorm:"autoUpdateTime" json:"updated_at"`
+
+	// Foreign key relationships
+	Event Event `gorm:"foreignKey:EventID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"event"`
+	Tag   Tag   `gorm:"foreignKey:TagID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"tag"`
 }
 
 type Tag struct {
@@ -27,4 +33,6 @@ type Tag struct {
 	TagName     string    	`json:"tag_name"`
 	CreatedAt   time.Time	`gorm:"autoCreateTime" json:"created_at"`
 	UpdatedAt   time.Time	`gorm:"autoUpdateTime" json:"updated_at"`
+
+	Events []Event `gorm:"many2many:event_tags;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"events,omitempty"`
 }
