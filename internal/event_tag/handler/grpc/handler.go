@@ -31,12 +31,41 @@ func (h *GrpcEventTagHandler) CreateEventTag(ctx context.Context, req *event_tag
 	}
 	return &event_tag_pb.CreateEventTagResponse{EventTag: toProtoEventTag(event)}, nil
 }
-func (h *GrpcEventTagHandler) FindEventTagByID(ctx context.Context, req *event_tag_pb.FindEventTagByIDRequest) (*event_tag_pb.FindEventTagByIDResponse, error) {
-	event, err := h.eventTagUseCase.FindEventTagByID(int(req.EventId), int(req.TagId))
+
+func (h *GrpcEventTagHandler) FindByEventID(ctx context.Context, req *event_tag_pb.FindByEventIDRequest) (*event_tag_pb.FindByEventIDResponse, error) {
+	events, err := h.eventTagUseCase.FindByEventID(int(req.EventId))
 	if err != nil {
 		return nil, status.Errorf(apperror.GRPCCode(err), "%s", err.Error())
 	}
-	return &event_tag_pb.FindEventTagByIDResponse{EventTag: toProtoEventTag(event)}, nil
+
+	var protoEvents []*event_tag_pb.EventTag
+	for _, o := range events {
+		protoEvents = append(protoEvents, toProtoEventTag(o))
+	}
+
+	return &event_tag_pb.FindByEventIDResponse{EventTags: protoEvents}, nil
+}
+
+func (h *GrpcEventTagHandler) FindByTagID(ctx context.Context, req *event_tag_pb.FindByTagIDRequest) (*event_tag_pb.FindByTagIDResponse, error) {
+	events, err := h.eventTagUseCase.FindByTagID(int(req.TagId))
+	if err != nil {
+		return nil, status.Errorf(apperror.GRPCCode(err), "%s", err.Error())
+	}
+
+	var protoEvents []*event_tag_pb.EventTag
+	for _, o := range events {
+		protoEvents = append(protoEvents, toProtoEventTag(o))
+	}
+
+	return &event_tag_pb.FindByTagIDResponse{EventTags: protoEvents}, nil
+}
+
+func (h *GrpcEventTagHandler) FindByEventandTagID(ctx context.Context, req *event_tag_pb.FindByEventandTagIDRequest) (*event_tag_pb.FindByEventandTagIDResponse, error) {
+	event, err := h.eventTagUseCase.FindByEventAndTagID(int(req.EventId), int(req.TagId))
+	if err != nil {
+		return nil, status.Errorf(apperror.GRPCCode(err), "%s", err.Error())
+	}
+	return &event_tag_pb.FindByEventandTagIDResponse{EventTag: toProtoEventTag(event)}, nil
 }
 
 func (h *GrpcEventTagHandler) FindAllEventTags(ctx context.Context, req *event_tag_pb.FindAllEventTagsRequest) (*event_tag_pb.FindAllEventTagsResponse, error) {
@@ -60,7 +89,7 @@ func (h *GrpcEventTagHandler) DeleteEventTag(ctx context.Context, req *event_tag
 	return &event_tag_pb.DeleteEventTagResponse{Message: "event tag deleted"}, nil
 }
 
-// helper function convert entities.Event to eventpb.Event
+// helper function convert entities.EventTag to eventpb.EventTag
 func toProtoEventTag(et *entities.EventTag) *event_tag_pb.EventTag {
 	return &event_tag_pb.EventTag{
 		EventId:   uint32(et.EventID),

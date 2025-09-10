@@ -20,13 +20,29 @@ message CreateEventTagResponse {
   EventTag event_tag = 1;
 }
 
-message FindEventTagByIDRequest {
+message FindByEventandTagIDRequest {
   uint32 event_id = 1;
 	uint32 tag_id = 2;
 }
 
-message FindEventTagByIDResponse {
+message FindByEventandTagIDResponse {
   EventTag event_tag = 1;
+}
+
+message FindByEventIDRequest {
+  uint32 event_id = 1;
+}
+
+message FindByEventIDResponse {
+  repeated EventTag event_tags = 1;
+}
+
+message FindByTagIDRequest {
+  uint32 tag_id = 1;
+}
+
+message FindByTagIDResponse {
+  repeated EventTag event_tags = 1;
 }
 
 message FindAllEventTagsRequest {}
@@ -46,7 +62,9 @@ message DeleteEventTagResponse {
 
 service EventTagService {
   rpc CreateEventTag(CreateEventTagRequest) returns (CreateEventTagResponse);
-  rpc FindEventTagByID(FindEventTagByIDRequest) returns (FindEventTagByIDResponse);
+  rpc FindByEventandTagID(FindByEventandTagIDRequest) returns (FindByEventandTagIDResponse);
+  rpc FindByEventID(FindByEventIDRequest) returns (FindByEventIDResponse);
+  rpc FindByTagID(FindByTagIDRequest) returns (FindByTagIDResponse);
   rpc FindAllEventTags(FindAllEventTagsRequest) returns (FindAllEventTagsResponse);
   rpc DeleteEventTag(DeleteEventTagRequest) returns (DeleteEventTagResponse);
 }

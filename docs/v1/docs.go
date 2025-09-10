@@ -68,6 +68,68 @@ const docTemplate = `{
                 }
             }
         },
+        "/event_tags/event/{event_id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "event_tags"
+                ],
+                "summary": "Get event tags by Event ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Event ID",
+                        "name": "event_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.EventTag"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/event_tags/tag/{tag_id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "event_tags"
+                ],
+                "summary": "Get event tags by Tag ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Tag ID",
+                        "name": "tag_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.EventTag"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/event_tags/{event_id}/{tag_id}": {
             "get": {
                 "produces": [

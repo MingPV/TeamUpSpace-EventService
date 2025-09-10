@@ -245,6 +245,46 @@ paths:
       summary: Get event tag by ID
       tags:
       - event_tags
+  /event_tags/event/{event_id}:
+    get:
+      parameters:
+      - description: Event ID
+        in: path
+        name: event_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.EventTag'
+            type: array
+      summary: Get event tags by Event ID
+      tags:
+      - event_tags
+  /event_tags/tag/{tag_id}:
+    get:
+      parameters:
+      - description: Tag ID
+        in: path
+        name: tag_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.EventTag'
+            type: array
+      summary: Get event tags by Tag ID
+      tags:
+      - event_tags
   /events:
     get:
       produces:

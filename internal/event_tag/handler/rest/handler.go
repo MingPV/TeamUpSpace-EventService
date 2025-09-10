@@ -60,7 +60,7 @@ func (h *HttpEventTagHandler) FindAllEventTags(c *fiber.Ctx) error {
 	return c.JSON(dto.ToEventTagResponseList(eventTags))
 }
 
-// FindEventTagByID godoc
+// FindByEventAndTagID godoc
 // @Summary Get event tag by ID
 // @Tags event_tags
 // @Produce json
@@ -68,7 +68,7 @@ func (h *HttpEventTagHandler) FindAllEventTags(c *fiber.Ctx) error {
 // @Param tag_id path int true "Tag ID"
 // @Success 200 {object} entities.EventTag
 // @Router /event_tags/{event_id}/{tag_id} [get]
-func (h *HttpEventTagHandler) FindEventTagByID(c *fiber.Ctx) error {
+func (h *HttpEventTagHandler) FindByEventAndTagID(c *fiber.Ctx) error {
 	eventID := c.Params("event_id")
 	tagID := c.Params("tag_id")
 
@@ -82,12 +82,58 @@ func (h *HttpEventTagHandler) FindEventTagByID(c *fiber.Ctx) error {
 		return responses.ErrorWithMessage(c, err, "invalid tag id")
 	}
 
-	eventTag, err := h.eventUseCase.FindEventTagByID(eventIDInt, tagIDInt)
+	eventTag, err := h.eventUseCase.FindByEventAndTagID(eventIDInt, tagIDInt)
 	if err != nil {
 		return responses.Error(c, err)
 	}
 
 	return c.JSON(dto.ToEventTagResponse(eventTag))
+}
+
+// FindByEventID godoc
+// @Summary Get event tags by Event ID
+// @Tags event_tags
+// @Produce json
+// @Param event_id path int true "Event ID"
+// @Success 200 {array} entities.EventTag
+// @Router /event_tags/event/{event_id} [get]
+func (h *HttpEventTagHandler) FindByEventID(c *fiber.Ctx) error {
+	eventID := c.Params("event_id")
+
+	eventIDInt, err := strconv.Atoi(eventID)
+	if err != nil {
+		return responses.ErrorWithMessage(c, err, "invalid event id")
+	}
+
+	eventTags, err := h.eventUseCase.FindByEventID(eventIDInt)
+	if err != nil {
+		return responses.Error(c, err)
+	}
+
+	return c.JSON(dto.ToEventTagResponseList(eventTags))
+}
+
+// FindByTagID godoc
+// @Summary Get event tags by Tag ID
+// @Tags event_tags
+// @Produce json
+// @Param tag_id path int true "Tag ID"
+// @Success 200 {array} entities.EventTag
+// @Router /event_tags/tag/{tag_id} [get]
+func (h *HttpEventTagHandler) FindByTagID(c *fiber.Ctx) error {
+	tagID := c.Params("tag_id")
+
+	tagIDInt, err := strconv.Atoi(tagID)
+	if err != nil {
+		return responses.ErrorWithMessage(c, err, "invalid tag id")
+	}
+
+	eventTags, err := h.eventUseCase.FindByTagID(tagIDInt)
+	if err != nil {
+		return responses.Error(c, err)
+	}
+
+	return c.JSON(dto.ToEventTagResponseList(eventTags))
 }
 
 // DeleteEventTag godoc

@@ -80,7 +80,9 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 	// EventTag routes
 	eventTagGroup := api.Group("/event_tags")
 	eventTagGroup.Get("/", eventTagHandler.FindAllEventTags)
-	eventTagGroup.Get("/:event_id/:tag_id", eventTagHandler.FindEventTagByID)
+	eventTagGroup.Get("/event/:event_id", eventTagHandler.FindByEventID)
+	eventTagGroup.Get("/tag/:tag_id", eventTagHandler.FindByTagID)
+	eventTagGroup.Get("/:event_id/:tag_id", eventTagHandler.FindByEventAndTagID)
 	eventTagGroup.Post("/", eventTagHandler.CreateEventTag)
 	eventTagGroup.Delete("/:event_id/:tag_id", eventTagHandler.DeleteEventTag)
 }
