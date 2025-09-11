@@ -20,7 +20,7 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	EventTagService_CreateEventTag_FullMethodName      = "/event_tag.EventTagService/CreateEventTag"
-	EventTagService_FindByEventandTagID_FullMethodName = "/event_tag.EventTagService/FindByEventandTagID"
+	EventTagService_FindByEventAndTagID_FullMethodName = "/event_tag.EventTagService/FindByEventAndTagID"
 	EventTagService_FindByEventID_FullMethodName       = "/event_tag.EventTagService/FindByEventID"
 	EventTagService_FindByTagID_FullMethodName         = "/event_tag.EventTagService/FindByTagID"
 	EventTagService_FindAllEventTags_FullMethodName    = "/event_tag.EventTagService/FindAllEventTags"
@@ -32,7 +32,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type EventTagServiceClient interface {
 	CreateEventTag(ctx context.Context, in *CreateEventTagRequest, opts ...grpc.CallOption) (*CreateEventTagResponse, error)
-	FindByEventandTagID(ctx context.Context, in *FindByEventandTagIDRequest, opts ...grpc.CallOption) (*FindByEventandTagIDResponse, error)
+	FindByEventAndTagID(ctx context.Context, in *FindByEventAndTagIDRequest, opts ...grpc.CallOption) (*FindByEventAndTagIDResponse, error)
 	FindByEventID(ctx context.Context, in *FindByEventIDRequest, opts ...grpc.CallOption) (*FindByEventIDResponse, error)
 	FindByTagID(ctx context.Context, in *FindByTagIDRequest, opts ...grpc.CallOption) (*FindByTagIDResponse, error)
 	FindAllEventTags(ctx context.Context, in *FindAllEventTagsRequest, opts ...grpc.CallOption) (*FindAllEventTagsResponse, error)
@@ -57,10 +57,10 @@ func (c *eventTagServiceClient) CreateEventTag(ctx context.Context, in *CreateEv
 	return out, nil
 }
 
-func (c *eventTagServiceClient) FindByEventandTagID(ctx context.Context, in *FindByEventandTagIDRequest, opts ...grpc.CallOption) (*FindByEventandTagIDResponse, error) {
+func (c *eventTagServiceClient) FindByEventAndTagID(ctx context.Context, in *FindByEventAndTagIDRequest, opts ...grpc.CallOption) (*FindByEventAndTagIDResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(FindByEventandTagIDResponse)
-	err := c.cc.Invoke(ctx, EventTagService_FindByEventandTagID_FullMethodName, in, out, cOpts...)
+	out := new(FindByEventAndTagIDResponse)
+	err := c.cc.Invoke(ctx, EventTagService_FindByEventAndTagID_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func (c *eventTagServiceClient) DeleteEventTag(ctx context.Context, in *DeleteEv
 // for forward compatibility.
 type EventTagServiceServer interface {
 	CreateEventTag(context.Context, *CreateEventTagRequest) (*CreateEventTagResponse, error)
-	FindByEventandTagID(context.Context, *FindByEventandTagIDRequest) (*FindByEventandTagIDResponse, error)
+	FindByEventAndTagID(context.Context, *FindByEventAndTagIDRequest) (*FindByEventAndTagIDResponse, error)
 	FindByEventID(context.Context, *FindByEventIDRequest) (*FindByEventIDResponse, error)
 	FindByTagID(context.Context, *FindByTagIDRequest) (*FindByTagIDResponse, error)
 	FindAllEventTags(context.Context, *FindAllEventTagsRequest) (*FindAllEventTagsResponse, error)
@@ -130,8 +130,8 @@ type UnimplementedEventTagServiceServer struct{}
 func (UnimplementedEventTagServiceServer) CreateEventTag(context.Context, *CreateEventTagRequest) (*CreateEventTagResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEventTag not implemented")
 }
-func (UnimplementedEventTagServiceServer) FindByEventandTagID(context.Context, *FindByEventandTagIDRequest) (*FindByEventandTagIDResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindByEventandTagID not implemented")
+func (UnimplementedEventTagServiceServer) FindByEventAndTagID(context.Context, *FindByEventAndTagIDRequest) (*FindByEventAndTagIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindByEventAndTagID not implemented")
 }
 func (UnimplementedEventTagServiceServer) FindByEventID(context.Context, *FindByEventIDRequest) (*FindByEventIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindByEventID not implemented")
@@ -184,20 +184,20 @@ func _EventTagService_CreateEventTag_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _EventTagService_FindByEventandTagID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindByEventandTagIDRequest)
+func _EventTagService_FindByEventAndTagID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindByEventAndTagIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(EventTagServiceServer).FindByEventandTagID(ctx, in)
+		return srv.(EventTagServiceServer).FindByEventAndTagID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: EventTagService_FindByEventandTagID_FullMethodName,
+		FullMethod: EventTagService_FindByEventAndTagID_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(EventTagServiceServer).FindByEventandTagID(ctx, req.(*FindByEventandTagIDRequest))
+		return srv.(EventTagServiceServer).FindByEventAndTagID(ctx, req.(*FindByEventAndTagIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -286,8 +286,8 @@ var EventTagService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _EventTagService_CreateEventTag_Handler,
 		},
 		{
-			MethodName: "FindByEventandTagID",
-			Handler:    _EventTagService_FindByEventandTagID_Handler,
+			MethodName: "FindByEventAndTagID",
+			Handler:    _EventTagService_FindByEventAndTagID_Handler,
 		},
 		{
 			MethodName: "FindByEventID",

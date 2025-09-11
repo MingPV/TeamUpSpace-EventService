@@ -185,7 +185,7 @@ func (x *CreateEventTagResponse) GetEventTag() *EventTag {
 	return nil
 }
 
-type FindByEventandTagIDRequest struct {
+type FindByEventAndTagIDRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	EventId       uint32                 `protobuf:"varint,1,opt,name=event_id,json=eventId,proto3" json:"event_id,omitempty"`
 	TagId         uint32                 `protobuf:"varint,2,opt,name=tag_id,json=tagId,proto3" json:"tag_id,omitempty"`
@@ -193,20 +193,20 @@ type FindByEventandTagIDRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FindByEventandTagIDRequest) Reset() {
-	*x = FindByEventandTagIDRequest{}
+func (x *FindByEventAndTagIDRequest) Reset() {
+	*x = FindByEventAndTagIDRequest{}
 	mi := &file_proto_event_tag_event_tag_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FindByEventandTagIDRequest) String() string {
+func (x *FindByEventAndTagIDRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindByEventandTagIDRequest) ProtoMessage() {}
+func (*FindByEventAndTagIDRequest) ProtoMessage() {}
 
-func (x *FindByEventandTagIDRequest) ProtoReflect() protoreflect.Message {
+func (x *FindByEventAndTagIDRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_event_tag_event_tag_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -218,46 +218,46 @@ func (x *FindByEventandTagIDRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindByEventandTagIDRequest.ProtoReflect.Descriptor instead.
-func (*FindByEventandTagIDRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use FindByEventAndTagIDRequest.ProtoReflect.Descriptor instead.
+func (*FindByEventAndTagIDRequest) Descriptor() ([]byte, []int) {
 	return file_proto_event_tag_event_tag_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *FindByEventandTagIDRequest) GetEventId() uint32 {
+func (x *FindByEventAndTagIDRequest) GetEventId() uint32 {
 	if x != nil {
 		return x.EventId
 	}
 	return 0
 }
 
-func (x *FindByEventandTagIDRequest) GetTagId() uint32 {
+func (x *FindByEventAndTagIDRequest) GetTagId() uint32 {
 	if x != nil {
 		return x.TagId
 	}
 	return 0
 }
 
-type FindByEventandTagIDResponse struct {
+type FindByEventAndTagIDResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	EventTag      *EventTag              `protobuf:"bytes,1,opt,name=event_tag,json=eventTag,proto3" json:"event_tag,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FindByEventandTagIDResponse) Reset() {
-	*x = FindByEventandTagIDResponse{}
+func (x *FindByEventAndTagIDResponse) Reset() {
+	*x = FindByEventAndTagIDResponse{}
 	mi := &file_proto_event_tag_event_tag_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FindByEventandTagIDResponse) String() string {
+func (x *FindByEventAndTagIDResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FindByEventandTagIDResponse) ProtoMessage() {}
+func (*FindByEventAndTagIDResponse) ProtoMessage() {}
 
-func (x *FindByEventandTagIDResponse) ProtoReflect() protoreflect.Message {
+func (x *FindByEventAndTagIDResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_event_tag_event_tag_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -269,12 +269,12 @@ func (x *FindByEventandTagIDResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FindByEventandTagIDResponse.ProtoReflect.Descriptor instead.
-func (*FindByEventandTagIDResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use FindByEventAndTagIDResponse.ProtoReflect.Descriptor instead.
+func (*FindByEventAndTagIDResponse) Descriptor() ([]byte, []int) {
 	return file_proto_event_tag_event_tag_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *FindByEventandTagIDResponse) GetEventTag() *EventTag {
+func (x *FindByEventAndTagIDResponse) GetEventTag() *EventTag {
 	if x != nil {
 		return x.EventTag
 	}
@@ -650,10 +650,10 @@ const file_proto_event_tag_event_tag_proto_rawDesc = "" +
 	"\x06tag_id\x18\x02 \x01(\rR\x05tagId\"J\n" +
 	"\x16CreateEventTagResponse\x120\n" +
 	"\tevent_tag\x18\x01 \x01(\v2\x13.event_tag.EventTagR\beventTag\"N\n" +
-	"\x1aFindByEventandTagIDRequest\x12\x19\n" +
+	"\x1aFindByEventAndTagIDRequest\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\rR\aeventId\x12\x15\n" +
 	"\x06tag_id\x18\x02 \x01(\rR\x05tagId\"O\n" +
-	"\x1bFindByEventandTagIDResponse\x120\n" +
+	"\x1bFindByEventAndTagIDResponse\x120\n" +
 	"\tevent_tag\x18\x01 \x01(\v2\x13.event_tag.EventTagR\beventTag\"1\n" +
 	"\x14FindByEventIDRequest\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\rR\aeventId\"K\n" +
@@ -676,7 +676,7 @@ const file_proto_event_tag_event_tag_proto_rawDesc = "" +
 	"\amessage\x18\x01 \x01(\tR\amessage2\xa4\x04\n" +
 	"\x0fEventTagService\x12U\n" +
 	"\x0eCreateEventTag\x12 .event_tag.CreateEventTagRequest\x1a!.event_tag.CreateEventTagResponse\x12d\n" +
-	"\x13FindByEventandTagID\x12%.event_tag.FindByEventandTagIDRequest\x1a&.event_tag.FindByEventandTagIDResponse\x12R\n" +
+	"\x13FindByEventAndTagID\x12%.event_tag.FindByEventAndTagIDRequest\x1a&.event_tag.FindByEventAndTagIDResponse\x12R\n" +
 	"\rFindByEventID\x12\x1f.event_tag.FindByEventIDRequest\x1a .event_tag.FindByEventIDResponse\x12L\n" +
 	"\vFindByTagID\x12\x1d.event_tag.FindByTagIDRequest\x1a\x1e.event_tag.FindByTagIDResponse\x12[\n" +
 	"\x10FindAllEventTags\x12\".event_tag.FindAllEventTagsRequest\x1a#.event_tag.FindAllEventTagsResponse\x12U\n" +
@@ -699,8 +699,8 @@ var file_proto_event_tag_event_tag_proto_goTypes = []any{
 	(*EventTag)(nil),                    // 0: event_tag.EventTag
 	(*CreateEventTagRequest)(nil),       // 1: event_tag.CreateEventTagRequest
 	(*CreateEventTagResponse)(nil),      // 2: event_tag.CreateEventTagResponse
-	(*FindByEventandTagIDRequest)(nil),  // 3: event_tag.FindByEventandTagIDRequest
-	(*FindByEventandTagIDResponse)(nil), // 4: event_tag.FindByEventandTagIDResponse
+	(*FindByEventAndTagIDRequest)(nil),  // 3: event_tag.FindByEventAndTagIDRequest
+	(*FindByEventAndTagIDResponse)(nil), // 4: event_tag.FindByEventAndTagIDResponse
 	(*FindByEventIDRequest)(nil),        // 5: event_tag.FindByEventIDRequest
 	(*FindByEventIDResponse)(nil),       // 6: event_tag.FindByEventIDResponse
 	(*FindByTagIDRequest)(nil),          // 7: event_tag.FindByTagIDRequest
@@ -712,18 +712,18 @@ var file_proto_event_tag_event_tag_proto_goTypes = []any{
 }
 var file_proto_event_tag_event_tag_proto_depIdxs = []int32{
 	0,  // 0: event_tag.CreateEventTagResponse.event_tag:type_name -> event_tag.EventTag
-	0,  // 1: event_tag.FindByEventandTagIDResponse.event_tag:type_name -> event_tag.EventTag
+	0,  // 1: event_tag.FindByEventAndTagIDResponse.event_tag:type_name -> event_tag.EventTag
 	0,  // 2: event_tag.FindByEventIDResponse.event_tags:type_name -> event_tag.EventTag
 	0,  // 3: event_tag.FindByTagIDResponse.event_tags:type_name -> event_tag.EventTag
 	0,  // 4: event_tag.FindAllEventTagsResponse.event_tags:type_name -> event_tag.EventTag
 	1,  // 5: event_tag.EventTagService.CreateEventTag:input_type -> event_tag.CreateEventTagRequest
-	3,  // 6: event_tag.EventTagService.FindByEventandTagID:input_type -> event_tag.FindByEventandTagIDRequest
+	3,  // 6: event_tag.EventTagService.FindByEventAndTagID:input_type -> event_tag.FindByEventAndTagIDRequest
 	5,  // 7: event_tag.EventTagService.FindByEventID:input_type -> event_tag.FindByEventIDRequest
 	7,  // 8: event_tag.EventTagService.FindByTagID:input_type -> event_tag.FindByTagIDRequest
 	9,  // 9: event_tag.EventTagService.FindAllEventTags:input_type -> event_tag.FindAllEventTagsRequest
 	11, // 10: event_tag.EventTagService.DeleteEventTag:input_type -> event_tag.DeleteEventTagRequest
 	2,  // 11: event_tag.EventTagService.CreateEventTag:output_type -> event_tag.CreateEventTagResponse
-	4,  // 12: event_tag.EventTagService.FindByEventandTagID:output_type -> event_tag.FindByEventandTagIDResponse
+	4,  // 12: event_tag.EventTagService.FindByEventAndTagID:output_type -> event_tag.FindByEventAndTagIDResponse
 	6,  // 13: event_tag.EventTagService.FindByEventID:output_type -> event_tag.FindByEventIDResponse
 	8,  // 14: event_tag.EventTagService.FindByTagID:output_type -> event_tag.FindByTagIDResponse
 	10, // 15: event_tag.EventTagService.FindAllEventTags:output_type -> event_tag.FindAllEventTagsResponse

@@ -60,12 +60,12 @@ func (h *GrpcEventTagHandler) FindByTagID(ctx context.Context, req *event_tag_pb
 	return &event_tag_pb.FindByTagIDResponse{EventTags: protoEvents}, nil
 }
 
-func (h *GrpcEventTagHandler) FindByEventandTagID(ctx context.Context, req *event_tag_pb.FindByEventandTagIDRequest) (*event_tag_pb.FindByEventandTagIDResponse, error) {
+func (h *GrpcEventTagHandler) FindByEventAndTagID(ctx context.Context, req *event_tag_pb.FindByEventAndTagIDRequest) (*event_tag_pb.FindByEventAndTagIDResponse, error) {
 	event, err := h.eventTagUseCase.FindByEventAndTagID(int(req.EventId), int(req.TagId))
 	if err != nil {
 		return nil, status.Errorf(apperror.GRPCCode(err), "%s", err.Error())
 	}
-	return &event_tag_pb.FindByEventandTagIDResponse{EventTag: toProtoEventTag(event)}, nil
+	return &event_tag_pb.FindByEventAndTagIDResponse{EventTag: toProtoEventTag(event)}, nil
 }
 
 func (h *GrpcEventTagHandler) FindAllEventTags(ctx context.Context, req *event_tag_pb.FindAllEventTagsRequest) (*event_tag_pb.FindAllEventTagsResponse, error) {
