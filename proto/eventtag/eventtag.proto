@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package event_tag;
+package eventtag;
 
-option go_package = "github.com/MingPV/EventService/proto/event_tag_pb";
+option go_package = "github.com/MingPV/EventService/proto/eventtag_pb";
 
 message EventTag {
 	uint32 event_id = 1;

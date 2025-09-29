@@ -1,14 +1,14 @@
 package app
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"google.golang.org/grpc"
-	"gorm.io/gorm"
 	"github.com/MingPV/EventService/internal/entities"
 	"github.com/MingPV/EventService/pkg/config"
 	"github.com/MingPV/EventService/pkg/database"
 	"github.com/MingPV/EventService/pkg/middleware"
 	"github.com/MingPV/EventService/pkg/routes"
+	"github.com/gofiber/fiber/v2"
+	"google.golang.org/grpc"
+	"gorm.io/gorm"
 
 	// // Order
 	// GrpcOrderHandler "github.com/MingPV/EventService/internal/order/handler/grpc"
@@ -32,7 +32,7 @@ import (
 	GrpcEventTagHandler "github.com/MingPV/EventService/internal/event_tag/handler/grpc"
 	eventTagRepository "github.com/MingPV/EventService/internal/event_tag/repository"
 	eventTagUseCase "github.com/MingPV/EventService/internal/event_tag/usecase"
-	event_tag_pb "github.com/MingPV/EventService/proto/event_tag"
+	event_tag_pb "github.com/MingPV/EventService/proto/eventtag"
 )
 
 // rest

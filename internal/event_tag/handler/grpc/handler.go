@@ -8,7 +8,7 @@ import (
 	"github.com/MingPV/EventService/internal/entities"
 	"github.com/MingPV/EventService/internal/event_tag/usecase"
 	"github.com/MingPV/EventService/pkg/apperror"
-	event_tag_pb "github.com/MingPV/EventService/proto/event_tag"
+	event_tag_pb "github.com/MingPV/EventService/proto/eventtag"
 	"google.golang.org/grpc/status"
 )
 
@@ -23,8 +23,8 @@ func NewGrpcEventTagHandler(uc usecase.EventTagUseCase) *GrpcEventTagHandler {
 
 func (h *GrpcEventTagHandler) CreateEventTag(ctx context.Context, req *event_tag_pb.CreateEventTagRequest) (*event_tag_pb.CreateEventTagResponse, error) {
 	event := &entities.EventTag{
-		EventID:   uint(req.EventId),
-		TagID:     uint(req.TagId),
+		EventID: uint(req.EventId),
+		TagID:   uint(req.TagId),
 	}
 	if err := h.eventTagUseCase.CreateEventTag(event); err != nil {
 		return nil, status.Errorf(apperror.GRPCCode(err), "%s", err.Error())
