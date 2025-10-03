@@ -33,6 +33,12 @@ import (
 	eventTagRepository "github.com/MingPV/EventService/internal/event_tag/repository"
 	eventTagUseCase "github.com/MingPV/EventService/internal/event_tag/usecase"
 	event_tag_pb "github.com/MingPV/EventService/proto/eventtag"
+
+	// SavedEvent
+	GrpcSavedEventHandler "github.com/MingPV/EventService/internal/savedevent/handler/grpc"
+	savedeventRepository "github.com/MingPV/EventService/internal/savedevent/repository"
+	savedeventUseCase "github.com/MingPV/EventService/internal/savedevent/usecase"
+	savedeventpb "github.com/MingPV/EventService/proto/savedevent"
 )
 
 // rest
@@ -75,6 +81,12 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	eventTagHandler := GrpcEventTagHandler.NewGrpcEventTagHandler(eventTagService)
 	event_tag_pb.RegisterEventTagServiceServer(s, eventTagHandler)
 
+	// SavedEvent Service
+	savedEventRepo := savedeventRepository.NewGormSavedEventRepository(db)
+	savedEventService := savedeventUseCase.NewSavedEventService(savedEventRepo)
+	savedEventHandler := GrpcSavedEventHandler.NewGrpcSavedEventHandler(savedEventService)
+	savedeventpb.RegisterSavedEventServiceServer(s, savedEventHandler)
+
 	return s, nil
 }
 
@@ -88,10 +100,15 @@ func SetupDependencies(env string) (*gorm.DB, *config.Config, error) {
 	}
 
 	if env == "test" {
-		db.Migrator().DropTable(&entities.Order{})
+		db.Migrator().DropTable(&entities.Order{}, &entities.SavedEvent{})
 	}
 
-	if err := db.AutoMigrate(&entities.Event{}, &entities.Tag{}, &entities.EventTag{}); err != nil {
+	if err := db.AutoMigrate(
+		&entities.Event{},
+		&entities.Tag{},
+		&entities.EventTag{},
+		&entities.SavedEvent{},
+	); err != nil {
 		return nil, nil, err
 	}
 
