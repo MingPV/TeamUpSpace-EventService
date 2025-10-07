@@ -3,16 +3,25 @@ package usecase
 import (
 	"github.com/MingPV/EventService/internal/entities"
 	"github.com/MingPV/EventService/internal/event/repository"
+	"github.com/MingPV/EventService/pkg/mq"
 )
 
 // EventService
 type EventService struct {
 	repo repository.EventRepository
+	mq   mq.MQPublisher
 }
 
 // Init EventService function
-func NewEventService(repo repository.EventRepository) EventUseCase {
-	return &EventService{repo: repo}
+// func NewEventService(repo repository.EventRepository) EventUseCase {
+// 	return &EventService{repo: repo}
+// }
+
+func NewEventService(repo repository.EventRepository, mq mq.MQPublisher) EventUseCase {
+	return &EventService{
+		repo: repo,
+		mq:   mq,
+	}
 }
 
 // EventService Methods - 1 create
@@ -20,6 +29,13 @@ func (s *EventService) CreateEvent(event *entities.Event) error {
 	if err := s.repo.Save(event); err != nil {
 		return err
 	}
+
+	// publish event to message broker (RabbitMQ)
+	// mqevent := entities.EventCreatedEvent{EventName: event.EventName, StartAt: event.StartAt, EndAt: event.EndAt, MainImageUrl: event.MainImageUrl, RegisterStartDt: event.RegisterStartDt, RegisterCloseDt: event.RegisterCloseDt}
+	// if err := s.mq.Publish("notifications", mqevent); err != nil {
+	// 	log.Println("Failed to publish event:", err)
+	// }
+
 	return nil
 }
 

@@ -5,6 +5,7 @@ import (
 	"github.com/MingPV/EventService/pkg/config"
 	"github.com/MingPV/EventService/pkg/database"
 	"github.com/MingPV/EventService/pkg/middleware"
+	"github.com/MingPV/EventService/pkg/mq"
 	"github.com/MingPV/EventService/pkg/routes"
 	"github.com/gofiber/fiber/v2"
 	"google.golang.org/grpc"
@@ -63,9 +64,13 @@ func SetupGrpcServer(db *gorm.DB, cfg *config.Config) (*grpc.Server, error) {
 	// orderHandler := GrpcOrderHandler.NewGrpcOrderHandler(orderService)
 	// orderpb.RegisterOrderServiceServer(s, orderHandler)
 
+	// MQ Publisher
+	rabbitURL := cfg.RabbitMQUrl
+	mqPublisher := mq.NewRabbitMQPublisher(rabbitURL)
+
 	// Event Service
 	eventRepo := eventRepository.NewGormEventRepository(db)
-	eventService := eventUseCase.NewEventService(eventRepo)
+	eventService := eventUseCase.NewEventService(eventRepo, mqPublisher)
 	eventHandler := GrpcEventHandler.NewGrpcEventHandler(eventService)
 	eventpb.RegisterEventServiceServer(s, eventHandler)
 

@@ -13,6 +13,7 @@ import (
 	eventHandler "github.com/MingPV/EventService/internal/event/handler/rest"
 	eventRepository "github.com/MingPV/EventService/internal/event/repository"
 	eventUseCase "github.com/MingPV/EventService/internal/event/usecase"
+	"github.com/MingPV/EventService/pkg/mq"
 
 	// Tag
 	tagHandler "github.com/MingPV/EventService/internal/tag/handler/rest"
@@ -36,9 +37,14 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 	// orderService := orderUseCase.NewOrderService(orderRepo)
 	// orderHandler := orderHandler.NewHttpOrderHandler(orderService)
 
+	// MQ Publisher
+	// rabbitURL := "amqp://guest:guest@host.docker.internal:5672/"
+	rabbitURL := "amqp://guest:guest@localhost:5672/"
+	mqPublisher := mq.NewRabbitMQPublisher(rabbitURL)
+
 	// Event
 	eventRepo := eventRepository.NewGormEventRepository(db)
-	eventService := eventUseCase.NewEventService(eventRepo)
+	eventService := eventUseCase.NewEventService(eventRepo, mqPublisher)
 	eventHandler := eventHandler.NewHttpEventHandler(eventService)
 
 	// Tag
