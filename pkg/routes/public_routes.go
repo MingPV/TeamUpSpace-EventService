@@ -1,6 +1,9 @@
 package routes
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 
@@ -38,8 +41,11 @@ func RegisterPublicRoutes(app fiber.Router, db *gorm.DB) {
 	// orderHandler := orderHandler.NewHttpOrderHandler(orderService)
 
 	// MQ Publisher
+	// load from .env
+	rabbitURL := os.Getenv("RABBITMQ_URL")
+	fmt.Println("Using RabbitMQ URL:", rabbitURL)
 	// rabbitURL := "amqp://guest:guest@host.docker.internal:5672/"
-	rabbitURL := "amqp://guest:guest@localhost:5672/"
+	// rabbitURL := "amqp://guest:guest@localhost:5672/"
 	mqPublisher := mq.NewRabbitMQPublisher(rabbitURL)
 
 	// Event
